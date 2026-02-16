@@ -5,10 +5,10 @@ FROM node:18
 WORKDIR /app
 
 # Copia apenas os arquivos de dependência primeiro
-COPY backend/package*.json ./
+COPY package*.json ./
 
 # Instala dependências
-RUN npm install
+COPY . .
 
 # Copia o restante do backend
 COPY backend .
