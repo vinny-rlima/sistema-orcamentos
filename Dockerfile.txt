@@ -1,20 +1,13 @@
-# Usa imagem oficial do Node
-FROM node:18
+FROM python:3.11
 
-# Cria diretório dentro do container
 WORKDIR /app
 
-# Copia apenas os arquivos de dependência primeiro
-COPY backend/package*.json ./
+COPY requirements.txt .
 
-# Instala dependências
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o restante do backend
-COPY backend .
+COPY . .
 
-# Expõe a porta (Railway usa 3000 normalmente)
-EXPOSE 3000
+EXPOSE 8080
 
-# Comando para iniciar
-CMD ["npm", "start"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
