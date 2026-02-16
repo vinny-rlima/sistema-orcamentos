@@ -1,20 +1,20 @@
-# Usa imagem oficial do Node
-FROM node:18
+# Usa imagem oficial do Python
+FROM python:3.11
 
-# Cria diretório dentro do container
+# Define diretório de trabalho
 WORKDIR /app
 
-# Copia apenas os arquivos de dependência primeiro
-COPY package*.json ./
+# Copia requirements do backend
+COPY backend/requirements.txt .
 
 # Instala dependências
-COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia o restante do backend
 COPY backend .
 
-# Expõe a porta (Railway usa 3000 normalmente)
-EXPOSE 3000
+# Expõe a porta usada pelo Railway
+EXPOSE 8080
 
-# Comando para iniciar
-CMD ["npm", "start"]
+# Comando para iniciar FastAPI
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
