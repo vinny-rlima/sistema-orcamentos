@@ -258,14 +258,12 @@ const LoginScreen = () => {
             secureTextEntry
         />
 
-        <TouchableOpacity
-          style={({ pressed }) => [
-            styles.loginButton,
-            pressed && { opacity: 0.8 }
-          ]}
-          onPress={handleLogin}
-          disabled={loading}
-        >
+          <TouchableOpacity
+            style={styles.loginButton}
+            activeOpacity={0.8}
+            onPress={handleLogin}
+            disabled={loading}
+          >
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
