@@ -1093,6 +1093,30 @@ const ClientFormScreen = ({ client, onBack }) => {
             <TextInput style={styles.input} value={clientData.phone} onChangeText={(text) => setClientData({...clientData, phone: text})} placeholder="(11) 1111-1111" />
             <Text style={styles.inputLabel}>E-mail *</Text>
             <TextInput style={styles.input} value={clientData.email} onChangeText={(text) => setClientData({...clientData, email: text})} placeholder="cliente@email.com" />
+            <Text style={styles.inputLabel}>CPF / CNPJ</Text>
+            <TextInput
+              style={styles.input}
+              value={clientData.cpf_cnpj}
+              onChangeText={(text) => setClientData({...clientData, cpf_cnpj: text})}
+              placeholder="Opcional"
+            />
+            
+            <Text style={styles.inputLabel}>Endereço</Text>
+            <TextInput
+              style={styles.input}
+              value={clientData.address}
+              onChangeText={(text) => setClientData({...clientData, address: text})}
+              placeholder="Opcional"
+            />
+            
+            <Text style={styles.inputLabel}>Cidade</Text>
+            <TextInput
+              style={styles.input}
+              value={clientData.city}
+              onChangeText={(text) => setClientData({...clientData, city: text})}
+              placeholder="Opcional"
+            />
+
             <TouchableOpacity style={styles.primaryButton} onPress={saveClient}>
               <Text style={styles.primaryButtonText}>{client ? 'Atualizar Cliente' : 'Cadastrar Cliente'}</Text>
             </TouchableOpacity>
