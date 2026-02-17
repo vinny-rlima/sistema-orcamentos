@@ -513,6 +513,8 @@ const UserManagementScreen = ({ onBack }) => {
   };
 
 const deleteUser = async (userId) => {
+  console.log("BOTÃO CLICADO");
+  
   Alert.alert(
     'Confirmar Exclusão',
     'Tem certeza que deseja excluir este usuário?',
@@ -522,7 +524,6 @@ const deleteUser = async (userId) => {
         text: 'Excluir',
         style: 'destructive',
         onPress: async () => {
-          console.log("BOTÃO CLICADO");
           try {
             const response = await apiCall(`/users/${userId}`, {
               method: 'DELETE'
