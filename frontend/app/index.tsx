@@ -150,8 +150,8 @@ const useAuth = () => {
 
 // Login Screen
 const LoginScreen = () => {
-  const [username, setUsername] = useState('User');
-  const [password, setPassword] = useState('...');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(false);
   const { login, setupAdmin } = useAuth();
@@ -241,19 +241,21 @@ const LoginScreen = () => {
         <Text style={styles.loginSubtitle}>Faça login para continuar</Text>
 
         <TextInput
-          style={styles.loginInput}
-          placeholder="Usuário"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
+            style={styles.loginInput}
+            placeholder="Usuário"
+            placeholderTextColor="#999"
+            value={username}
+            onChangeText={setUsername}
+            autoCapitalize="none"
         />
 
         <TextInput
-          style={styles.loginInput}
-          placeholder="Senha"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
+            style={styles.loginInput}
+            placeholder="Senha"
+            placeholderTextColor="#999"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
         />
 
         <TouchableOpacity 
