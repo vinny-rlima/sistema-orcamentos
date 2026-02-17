@@ -258,8 +258,11 @@ const LoginScreen = () => {
             secureTextEntry
         />
 
-        <TouchableOpacity 
-          style={styles.loginButton} 
+        <TouchableOpacity
+          style={({ pressed }) => [
+            styles.loginButton,
+            pressed && { opacity: 0.8 }
+          ]}
           onPress={handleLogin}
           disabled={loading}
         >
@@ -1473,13 +1476,19 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 16,
   },
-  loginButton: {
-    backgroundColor: '#4A90E2',
-    borderRadius: 8,
-    padding: 16,
+    loginButton: {
     width: '100%',
+    height: 55,
+    borderRadius: 12,
+    backgroundColor: '#4A90E2',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5, // Android
+    marginTop: 10,
   },
   setupButton: {
     backgroundColor: '#28a745',
@@ -1491,7 +1500,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    letterSpacing: 1,
   },
   defaultCredentials: {
     fontSize: 14,
