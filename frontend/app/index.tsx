@@ -522,6 +522,7 @@ const deleteUser = async (userId) => {
         text: 'Excluir',
         style: 'destructive',
         onPress: async () => {
+          console.log("BOTÃO CLICADO");
           try {
             const response = await apiCall(`/users/${userId}`, {
               method: 'DELETE'
