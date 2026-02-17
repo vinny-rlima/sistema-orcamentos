@@ -6,7 +6,6 @@ import {
   TouchableOpacity, 
   ScrollView, 
   SafeAreaView,
-  Alert,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -1067,6 +1066,9 @@ const ClientFormScreen = ({ client, onBack }) => {
       } else {
         const error = await response.json();
         alert(error.detail || 'Erro ao salvar cliente');
+    } catch (error) {
+      console.log(error);
+      alert('Erro ao salvar cliente');
     }
   };
 
