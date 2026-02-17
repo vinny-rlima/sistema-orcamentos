@@ -513,44 +513,34 @@ const UserManagementScreen = ({ onBack }) => {
   };
 
 const deleteUser = async (userId) => {
-  console.log("BOTÃO CLICADO");
-  
-  Alert.alert(
-    'Confirmar Exclusão',
-    'Tem certeza que deseja excluir este usuário?',
-    [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Excluir',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            const response = await apiCall(`/users/${userId}`, {
-              method: 'DELETE'
-            });
-
-            console.log("STATUS:", response.status);
-
-            const data = await response.text();
-            console.log("RESPOSTA:", data);
-
-            if (response.ok) {
-              await loadUsers();
-              Alert.alert('Sucesso', 'Usuário excluído com sucesso');
-            } else {
-              Alert.alert('Erro', data);
-            }
-
-          } catch (error) {
-            console.log("ERRO GERAL:", error);
-            Alert.alert('Erro', 'Erro ao excluir usuário');
-          }
-        }
-      }
-    ]
+  const confirmDelete = window.confirm(
+    "Tem certeza que deseja excluir este usuário?"
   );
-};
 
+  if (!confirmDelete) return;
+
+  try {
+    const response = await apiCall(`/users/${userId}`, {
+      method: 'DELETE'
+    });
+
+    console.log("STATUS:", response.status);
+
+    const data = await response.text();
+    console.log("RESPOSTA:", data);
+
+    if (response.ok) {
+      await loadUsers();
+      alert("Usuário excluído com sucesso");
+    } else {
+      alert(data);
+    }
+
+  } catch (error) {
+    console.log("ERRO:", error);
+    alert("Erro ao excluir usuário");
+  }
+};
 
   if (showForm) {
     return (
