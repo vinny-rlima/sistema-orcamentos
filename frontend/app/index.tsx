@@ -151,8 +151,8 @@ const useAuth = () => {
 
 // Login Screen
 const LoginScreen = () => {
-  const [username, setUsername] = useState('vinny');
-  const [password, setPassword] = useState('vinny2026');
+  const [username, setUsername] = useState('User');
+  const [password, setPassword] = useState('...');
   const [loading, setLoading] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(false);
   const { login, setupAdmin } = useAuth();
@@ -512,35 +512,43 @@ const UserManagementScreen = ({ onBack }) => {
     }
   };
 
-  const deleteUser = async (userId) => {
-    Alert.alert(
-      'Confirmar Exclusão',
-      'Tem certeza que deseja excluir este usuário?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const response = await apiCall(`/users/${userId}`, {
-                method: 'DELETE'
-              });
+const deleteUser = async (userId) => {
+  Alert.alert(
+    'Confirmar Exclusão',
+    'Tem certeza que deseja excluir este usuário?',
+    [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Excluir',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            const response = await apiCall(`/users/${userId}`, {
+              method: 'DELETE'
+            });
 
-              if (response && response.ok) {
-                loadUsers();
-                Alert.alert('Sucesso', 'Usuário excluído com sucesso');
-              } else {
-                Alert.alert('Erro', 'Erro ao excluir usuário');
-              }
-            } catch (error) {
-              Alert.alert('Erro', 'Erro ao excluir usuário');
+            console.log("STATUS:", response.status);
+
+            const data = await response.text();
+            console.log("RESPOSTA:", data);
+
+            if (response.ok) {
+              await loadUsers();
+              Alert.alert('Sucesso', 'Usuário excluído com sucesso');
+            } else {
+              Alert.alert('Erro', data);
             }
+
+          } catch (error) {
+            console.log("ERRO GERAL:", error);
+            Alert.alert('Erro', 'Erro ao excluir usuário');
           }
         }
-      ]
-    );
-  };
+      }
+    ]
+  );
+};
+
 
   if (showForm) {
     return (
