@@ -151,8 +151,8 @@ const useAuth = () => {
 
 // Login Screen
 const LoginScreen = () => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('vinny');
+  const [password, setPassword] = useState('vinny2026');
   const [loading, setLoading] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(false);
   const { login, setupAdmin } = useAuth();
@@ -270,7 +270,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
         
         <Text style={styles.defaultCredentials}>
-          Credenciais padrão: admin / admin123
+          obrigado por usar!
         </Text>
       </View>
     </KeyboardAvoidingView>
