@@ -1294,21 +1294,34 @@ const QuotesListScreen = ({ onBack }) => {
     }
   };
 
-  const downloadPDF = async (quoteId, quoteNumber) => {
-    try {
-      if (Platform.OS === 'web') {
-        const pdfUrl = `${EXPO_PUBLIC_BACKEND_URL}/api/quotes/${quoteId}/pdf`;
-        window.open(pdfUrl, '_blank');
-      } else {
-        const pdfUrl = `${EXPO_PUBLIC_BACKEND_URL}/api/quotes/${quoteId}/pdf`;
-        await Linking.openURL(pdfUrl);
-      }
-      alert('PDF sendo baixado/aberto');
-    } catch (error) {
-      alert('Erro ao abrir PDF');
-      console.error(error);
+  const handleDownloadPDF = async (quoteId) => {
+  try {
+    const response = await apiCall(`/quotes/${quoteId}/pdf`, {
+      method: 'GET'
+    });
+
+    if (!response || !response.ok) {
+      alert('Erro ao gerar PDF');
+      return;
     }
-  };
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `orcamento-${quoteId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.log(error);
+    alert('Erro ao baixar PDF');
+  }
+};
 
   const shareWhatsApp = (quoteNumber, total) => {
     const message = `Orçamento #${quoteNumber} - Valor: R$ ${total.toFixed(2)}`;
@@ -1384,12 +1397,9 @@ const QuotesListScreen = ({ onBack }) => {
               <Text style={styles.quoteTotal}>R$ {quote.total.toFixed(2)}</Text>
               
               <View style={styles.quoteActions}>
-                <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={() => downloadPDF(quote.id, quote.quote_number)}
-                >
-                  <Ionicons name="download-outline" size={20} color="#4A90E2" />
-                  <Text style={styles.actionText}>PDF</Text>
+                <TouchableOpacity onPress={() => handleDownloadPDF(quote.id)}>
+                  <Ionicons name="download-outline" size={20} />
+                  <Text>PDF</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity
