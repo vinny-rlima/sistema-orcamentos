@@ -181,7 +181,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     if (!username || !password) {
-      Alert.alert('Erro', 'Preencha todos os campos');
+      alert('Erro', 'Preencha todos os campos');
       return;
     }
 
@@ -190,7 +190,7 @@ const LoginScreen = () => {
     setLoading(false);
 
     if (!result.success) {
-      Alert.alert('Erro', result.error);
+      alert('Erro', result.error);
     }
   };
 
@@ -200,9 +200,9 @@ const LoginScreen = () => {
     setLoading(false);
 
     if (!result.success) {
-      Alert.alert('Erro', result.error);
+      alert('Erro', result.error);
     } else {
-      Alert.alert('Sucesso', 'Admin criado! Use: admin/admin123 para fazer login');
+      alert('Sucesso', 'Admin criado!');
     }
   };
 
@@ -343,16 +343,14 @@ const DashboardApp = () => {
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      'Sair',
-      'Deseja realmente sair do sistema?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Sair', onPress: logout }
-      ]
-    );
-  };
+  const confirmLogout = window.confirm(
+    "Deseja realmente sair do sistema?"
+  );
 
+  if (confirmLogout) {
+    logout();
+  }
+};
   const renderDashboard = () => (
     <ScrollView style={styles.container}>
       <SafeAreaView>
@@ -488,7 +486,7 @@ const UserManagementScreen = ({ onBack }) => {
 
   const createUser = async () => {
     if (!newUser.username || !newUser.email || !newUser.password) {
-      Alert.alert('Erro', 'Preencha todos os campos');
+      alert('Preencha todos os campos');
       return;
     }
 
@@ -499,16 +497,16 @@ const UserManagementScreen = ({ onBack }) => {
       });
 
       if (response && response.ok) {
-        Alert.alert('Sucesso', 'Usuário criado com sucesso!');
+        alert('Usuário criado com sucesso!');
         setNewUser({ username: '', email: '', password: '', role: 'user' });
         setShowForm(false);
         loadUsers();
       } else {
         const error = await response.json();
-        Alert.alert('Erro', error.detail || 'Erro ao criar usuário');
+        Alert.alert(error.detail || 'Erro ao criar usuário');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro ao criar usuário');
+      Alert.alert('Erro ao criar usuário');
     }
   };
 
@@ -717,7 +715,7 @@ const CompanySettingsScreen = ({ onBack }) => {
       
       input.click();
     } else {
-      Alert.alert('Info', 'Upload de logo disponível apenas na versão web por enquanto');
+      alert('Upload de logo disponível apenas na versão web por enquanto');
     }
   };
 
@@ -729,12 +727,12 @@ const CompanySettingsScreen = ({ onBack }) => {
       });
 
       if (response && response.ok) {
-        Alert.alert('Sucesso', 'Dados da empresa salvos com sucesso!');
+        alert('Dados da empresa salvos com sucesso!');
       } else {
-        Alert.alert('Erro', 'Erro ao salvar dados da empresa');
+        alert('Erro ao salvar dados da empresa');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro ao salvar dados da empresa');
+      alert('Erro ao salvar dados da empresa');
       console.error(error);
     }
   };
@@ -927,31 +925,31 @@ const ClientsScreen = ({ onBack }) => {
     }
   };
 
-  const deleteClient = async (clientId) => {
-    Alert.alert(
-      'Confirmar Exclusão',
-      'Tem certeza que deseja excluir este cliente?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const response = await apiCall(`/clients/${clientId}`, {
-                method: 'DELETE'
-              });
-              if (response && response.ok) {
-                loadClients();
-              }
-            } catch (error) {
-              Alert.alert('Erro', 'Erro ao excluir cliente');
-            }
-          },
-        },
-      ]
-    );
-  };
+const deleteClient = async (clientId) => {
+  const confirmDelete = window.confirm(
+    "Tem certeza que deseja excluir este cliente?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    const response = await apiCall(`/clients/${clientId}`, {
+      method: 'DELETE'
+    });
+
+    if (response && response.ok) {
+      loadClients();
+      alert("Cliente excluído com sucesso!");
+    } else {
+      const error = await response.json();
+      alert(error.detail || "Erro ao excluir cliente");
+    }
+
+  } catch (error) {
+    console.log(error);
+    alert("Erro ao excluir cliente");
+  }
+};
 
   if (showForm) {
     return (
@@ -1048,7 +1046,7 @@ const ClientFormScreen = ({ client, onBack }) => {
 
   const saveClient = async () => {
     if (!clientData.name || !clientData.phone || !clientData.email) {
-      Alert.alert('Erro', 'Preencha os campos obrigatórios');
+      alert('Preencha os campos obrigatórios');
       return;
     }
 
@@ -1064,13 +1062,11 @@ const ClientFormScreen = ({ client, onBack }) => {
       });
 
       if (response && response.ok) {
-        Alert.alert('Sucesso', `Cliente ${client ? 'atualizado' : 'cadastrado'} com sucesso!`);
+        alert(`Cliente ${client ? 'atualizado' : 'cadastrado'} com sucesso!`);
         onBack();
       } else {
-        Alert.alert('Erro', 'Erro ao salvar cliente');
-      }
-    } catch (error) {
-      Alert.alert('Erro', 'Erro ao salvar cliente');
+        const error = await response.json();
+        alert(error.detail || 'Erro ao salvar cliente');
     }
   };
 
@@ -1155,12 +1151,12 @@ const CreateQuoteScreen = ({ onBack, onRefresh }) => {
 
   const createQuote = async () => {
     if (!selectedClientId) {
-      Alert.alert('Erro', 'Selecione um cliente');
+      alert('Selecione um cliente');
       return;
     }
 
     if (items.some(item => !item.description)) {
-      Alert.alert('Erro', 'Preencha a descrição de todos os itens');
+      alert('Preencha a descrição de todos os itens');
       return;
     }
 
@@ -1184,14 +1180,14 @@ const CreateQuoteScreen = ({ onBack, onRefresh }) => {
       });
 
       if (response && response.ok) {
-        Alert.alert('Sucesso', 'Orçamento criado com sucesso!');
+        alert('Orçamento criado com sucesso!');
         onRefresh();
         onBack();
       } else {
-        Alert.alert('Erro', 'Erro ao criar orçamento');
+        alert('Erro ao criar orçamento');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro ao criar orçamento');
+      alert('Erro ao criar orçamento');
       console.error(error);
     }
   };
@@ -1301,9 +1297,9 @@ const QuotesListScreen = ({ onBack }) => {
         const pdfUrl = `${EXPO_PUBLIC_BACKEND_URL}/api/quotes/${quoteId}/pdf`;
         await Linking.openURL(pdfUrl);
       }
-      Alert.alert('Sucesso', 'PDF sendo baixado/aberto');
+      alert('PDF sendo baixado/aberto');
     } catch (error) {
-      Alert.alert('Erro', 'Erro ao abrir PDF');
+      alert('Erro ao abrir PDF');
       console.error(error);
     }
   };
@@ -1320,34 +1316,31 @@ const QuotesListScreen = ({ onBack }) => {
   };
 
   const deleteQuote = async (quoteId) => {
-    Alert.alert(
-      'Confirmar Exclusão',
-      'Tem certeza que deseja excluir este orçamento?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const response = await apiCall(`/quotes/${quoteId}`, {
-                method: 'DELETE'
-              });
-
-              if (response && response.ok) {
-                loadQuotes();
-                Alert.alert('Sucesso', 'Orçamento excluído com sucesso');
-              } else {
-                Alert.alert('Erro', 'Erro ao excluir orçamento');
-              }
-            } catch (error) {
-              Alert.alert('Erro', 'Erro ao excluir orçamento');
-            }
-          }
-        }
-      ]
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir este orçamento?"
     );
+  
+    if (!confirmDelete) return;
+  
+    try {
+      const response = await apiCall(`/quotes/${quoteId}`, {
+        method: 'DELETE'
+      });
+  
+      if (response && response.ok) {
+        loadQuotes();
+        alert("Orçamento excluído com sucesso!");
+      } else {
+        const error = await response.json();
+        alert(error.detail || "Erro ao excluir orçamento");
+      }
+  
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao excluir orçamento");
+    }
   };
+
 
   return (
     <ScrollView style={styles.container}>
