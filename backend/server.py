@@ -88,13 +88,13 @@ class Client(BaseModel):
     phone: str
     phone2: Optional[str] = None
     email: str
-    cpf_cnpj: str
+    cpf_cnpj: Optional[str] = None
     rg_ie: Optional[str] = None
-    address: str
-    neighborhood: str
-    city: str
-    state: str
-    cep: str
+    address: Optional[str] = None
+    neighborhood: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    cep: Optional[str] = None
     company_id: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
