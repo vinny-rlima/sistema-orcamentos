@@ -1044,6 +1044,9 @@ const ClientFormScreen = ({ client, onBack }) => {
     company_id: '',
     created_by: ''
   });
+
+  const [showFiscal, setShowFiscal] = useState(false);
+
   const { apiCall, user } = useAuth();
 
   const saveClient = async () => {
@@ -1087,40 +1090,122 @@ const ClientFormScreen = ({ client, onBack }) => {
             <Text style={styles.headerTitle}>{client ? 'Editar Cliente' : 'Novo Cliente'}</Text>
           </View>
           <View style={styles.form}>
-            <Text style={styles.inputLabel}>Nome *</Text>
-            <TextInput style={styles.input} value={clientData.name} onChangeText={(text) => setClientData({...clientData, name: text})} placeholder="Nome do cliente" />
-            <Text style={styles.inputLabel}>Telefone *</Text>
-            <TextInput style={styles.input} value={clientData.phone} onChangeText={(text) => setClientData({...clientData, phone: text})} placeholder="(11) 1111-1111" />
-            <Text style={styles.inputLabel}>E-mail *</Text>
-            <TextInput style={styles.input} value={clientData.email} onChangeText={(text) => setClientData({...clientData, email: text})} placeholder="cliente@email.com" />
-            <Text style={styles.inputLabel}>CPF / CNPJ</Text>
-            <TextInput
-              style={styles.input}
-              value={clientData.cpf_cnpj}
-              onChangeText={(text) => setClientData({...clientData, cpf_cnpj: text})}
-              placeholder="Opcional"
-            />
             
-            <Text style={styles.inputLabel}>Endereço</Text>
-            <TextInput
-              style={styles.input}
-              value={clientData.address}
-              onChangeText={(text) => setClientData({...clientData, address: text})}
-              placeholder="Opcional"
-            />
+              {/* ===== DADOS BÁSICOS ===== */}
+              <Text style={styles.sectionTitle}>Dados Básicos</Text>
             
-            <Text style={styles.inputLabel}>Cidade</Text>
-            <TextInput
-              style={styles.input}
-              value={clientData.city}
-              onChangeText={(text) => setClientData({...clientData, city: text})}
-              placeholder="Opcional"
-            />
-
-            <TouchableOpacity style={styles.primaryButton} onPress={saveClient}>
-              <Text style={styles.primaryButtonText}>{client ? 'Atualizar Cliente' : 'Cadastrar Cliente'}</Text>
-            </TouchableOpacity>
-          </View>
+              <Text style={styles.inputLabel}>Nome *</Text>
+              <TextInput
+                style={styles.input}
+                value={clientData.name}
+                onChangeText={(text) => setClientData({...clientData, name: text})}
+                placeholder="Nome do cliente"
+              />
+            
+              <Text style={styles.inputLabel}>Telefone *</Text>
+              <TextInput
+                style={styles.input}
+                value={clientData.phone}
+                onChangeText={(text) => setClientData({...clientData, phone: text})}
+                placeholder="(11) 1111-1111"
+              />
+            
+              <Text style={styles.inputLabel}>Telefone 2</Text>
+              <TextInput
+                style={styles.input}
+                value={clientData.phone2}
+                onChangeText={(text) => setClientData({...clientData, phone2: text})}
+                placeholder="Opcional"
+              />
+            
+              <Text style={styles.inputLabel}>E-mail *</Text>
+              <TextInput
+                style={styles.input}
+                value={clientData.email}
+                onChangeText={(text) => setClientData({...clientData, email: text})}
+                placeholder="cliente@email.com"
+              />
+            
+              {/* ===== BOTÃO PARA ABRIR FISCAL ===== */}
+              <TouchableOpacity
+                style={styles.fiscalToggle}
+                onPress={() => setShowFiscal(!showFiscal)}
+              >
+                <Text style={styles.fiscalToggleText}>
+                  {showFiscal ? "Ocultar Informações Fiscais ▲" : "Adicionar Informações Fiscais ▼"}
+                </Text>
+              </TouchableOpacity>
+            
+              {/* ===== INFORMAÇÕES FISCAIS ===== */}
+              {showFiscal && (
+                <>
+                  <Text style={styles.sectionTitle}>Informações Fiscais (Opcional)</Text>
+            
+                  <Text style={styles.inputLabel}>CPF / CNPJ</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.cpf_cnpj}
+                    onChangeText={(text) => setClientData({...clientData, cpf_cnpj: text})}
+                    placeholder="Opcional"
+                  />
+            
+                  <Text style={styles.inputLabel}>RG / IE</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.rg_ie}
+                    onChangeText={(text) => setClientData({...clientData, rg_ie: text})}
+                    placeholder="Opcional"
+                  />
+            
+                  <Text style={styles.inputLabel}>Endereço</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.address}
+                    onChangeText={(text) => setClientData({...clientData, address: text})}
+                    placeholder="Opcional"
+                  />
+            
+                  <Text style={styles.inputLabel}>Bairro</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.neighborhood}
+                    onChangeText={(text) => setClientData({...clientData, neighborhood: text})}
+                    placeholder="Opcional"
+                  />
+            
+                  <Text style={styles.inputLabel}>Cidade</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.city}
+                    onChangeText={(text) => setClientData({...clientData, city: text})}
+                    placeholder="Opcional"
+                  />
+            
+                  <Text style={styles.inputLabel}>Estado</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.state}
+                    onChangeText={(text) => setClientData({...clientData, state: text})}
+                    placeholder="Ex: SP"
+                  />
+            
+                  <Text style={styles.inputLabel}>CEP</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={clientData.cep}
+                    onChangeText={(text) => setClientData({...clientData, cep: text})}
+                    placeholder="00000-000"
+                  />
+                </>
+              )}
+            
+              {/* ===== BOTÃO FINAL ===== */}
+              <TouchableOpacity style={styles.primaryButton} onPress={saveClient}>
+                <Text style={styles.primaryButtonText}>
+                  {client ? 'Atualizar Cliente' : 'Cadastrar Cliente'}
+                </Text>
+              </TouchableOpacity>
+            </View>
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -1472,6 +1557,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
     padding: 20,
   },
+  fiscalToggle: {
+    marginTop: 20,
+    marginBottom: 10,
+    paddingVertical: 10,
+    alignItems: 'center'
+  },
+  fiscalToggleText: {
+    color: '#4A90E2',
+    fontWeight: '600'
+  },
   loginCard: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -1644,9 +1739,9 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#343a40',
-    marginBottom: 16,
     marginTop: 20,
+    marginBottom: 10,
+    color: '#333'
   },
   inputLabel: {
     fontSize: 14,
