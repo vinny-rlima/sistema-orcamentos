@@ -188,20 +188,6 @@ async def setup_admin():
     if existing_admin:
         raise HTTPException(status_code=400, detail="Admin já existe")
     
-    # Criar empresa padrão
-    company_data = {
-        "company_name": "Minha Empresa",
-        "cpf_cnpj": "00.000.000/0000-00",
-        "ie": "111111111",
-        "address": "Rua Principal, 123",
-        "neighborhood": "Centro",
-        "city": "São Paulo",
-        "state": "SP",
-        "cep": "01234-567",
-        "phone": "(11) 1111-1111",
-        "email": "contato@minhaempresa.com",
-        "updated_at": datetime.utcnow()
-    }
     
     company_result = await db.company_settings.insert_one(company_data)
     company_id = str(company_result.inserted_id)
@@ -210,7 +196,7 @@ async def setup_admin():
     admin_data = {
         "username": "admin",
         "email": "admin@empresa.com",
-        "password_hash": hash_password("admin123"),
+        "password_hash": hash_password("HZTABIL4367@"),
         "role": "admin",
         "company_id": company_id,
         "created_at": datetime.utcnow(),
