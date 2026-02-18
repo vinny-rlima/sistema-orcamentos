@@ -1399,6 +1399,14 @@ const CreateQuoteScreen = ({ onBack, onRefresh }) => {
             </Text>
           
           </View>
+          <Text style={styles.inputLabel}>Observações</Text>
+            <TextInput
+              style={[styles.input, { height: 100 }]}
+              multiline
+              value={observations}
+              onChangeText={setObservations}
+              placeholder="Ex: Prazo de entrega, garantia, validade do orçamento..."
+            />
 
           <TouchableOpacity style={styles.primaryButton} onPress={createQuote}>
             <Text style={styles.primaryButtonText}>Criar Orçamento</Text>
