@@ -562,10 +562,10 @@ async def generate_quote_pdf(quote_id: str, current_user: dict = Depends(get_cur
             ("NOME", client['name']),
             ("TELEFONE", f"{client['phone']} - {client.get('phone2', '')}"),
             ("EMAIL", client['email']),
-            ("CPF/CNPJ", client['cpf_cnpj']),
-            ("ENDEREÇO", client['address']),
-            ("CIDADE", client['city']),
-            ("ESTADO", client['state']),
+            ("CPF/CNPJ", client.get('cpf_cnpj', '')),
+            ("ENDEREÇO", client.get('address', '')),
+            ("CIDADE", client.get('city', '')),
+            ("ESTADO", client.get('state', '')),
             ("CEP", client.get('cep', ''))
         ]
         
