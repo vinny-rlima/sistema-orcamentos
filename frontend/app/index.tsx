@@ -1370,7 +1370,34 @@ const CreateQuoteScreen = ({ onBack, onRefresh }) => {
           </TouchableOpacity>
 
           <View style={styles.totalsSection}>
-            <Text style={styles.sectionTitle}>Total: R$ {calculateTotal().toFixed(2)}</Text>
+          
+            <Text style={styles.inputLabel}>Subtotal</Text>
+            <Text style={{ fontSize: 16, marginBottom: 10 }}>
+              R$ {calculateSubtotal().toFixed(2)}
+            </Text>
+          
+            <Text style={styles.inputLabel}>Desconto (R$)</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={discount.toString()}
+              onChangeText={(text) => setDiscount(parseFloat(text) || 0)}
+              placeholder="0.00"
+            />
+          
+            <Text style={styles.inputLabel}>Acréscimo (R$)</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={additional.toString()}
+              onChangeText={(text) => setAdditional(parseFloat(text) || 0)}
+              placeholder="0.00"
+            />
+          
+            <Text style={[styles.sectionTitle, { marginTop: 15 }]}>
+              Total: R$ {calculateTotal().toFixed(2)}
+            </Text>
+          
           </View>
 
           <TouchableOpacity style={styles.primaryButton} onPress={createQuote}>
